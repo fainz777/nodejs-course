@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/fainz777/nodejs-course/issues"
   },
-  "homepage": "https://github.com/fainz777/nodejs-course#readme"
+  "homepage": "https://github.com/fainz777/nodejs-course#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
 }
