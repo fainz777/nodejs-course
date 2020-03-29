@@ -1,0 +1,22 @@
+{
+  "name": "caesar-cipher",
+  "version": "1.0.0",
+  "description": "caesar-cipher cli encoder and decoder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fainz777/nodejs-course.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fainz777/nodejs-course/issues"
+  },
+  "homepage": "https://github.com/fainz777/nodejs-course#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
+}
