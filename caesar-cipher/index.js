@@ -1,15 +1,40 @@
 const {program} = require('commander');
 const readline = require('readline')
+const {readFile, writeFile} = require('./fileManager');
 const encode = require('./encode');
 const decode = require('./decode');
 
-let input; // = 'This is secret. Message about "_" symbol!';
-let output; // = 'Aopz pz zljyla. Tlzzhnl hivba "_" zftivs!';
-let shift; // = 7;
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let input;
+let output;
+let shift;
 
 const actions = {
   encode,
   decode
+};
+
+const doAction = (input, action, shift) => {
+  if (actions[action]) {
+    return actions[action](input, shift);
+  } else {
+    console.error(`The action should be one of ${Object.keys(actions).join(' or ')}, but is: ${program.action}`);
+    process.exit(1);
+  }
+};
+
+const outputResult = (output) => {
+  if (program.output) {
+    writeFile(program.output, output);
+    process.exit(0);
+  } else {
+    console.log(output)
+    process.exit(0);
+  }
 };
 
 program
@@ -20,48 +45,19 @@ program
 
 program.parse(process.argv);
 
-shift = parseInt(program.shift);
+shift = parseInt(program.shift) % 26;
 
-if (!program.input) {
-  input = 'This is secret. Message about "_" symbol!';
+if (program.input) {
+  input = readFile(program.input);
+  output = doAction(input, program.action, shift);
+  outputResult(output);
+} else {
+  rl.question(`Enter your string: `, str => {
+    input = str;
+    output = doAction(input, program.action, shift);
+    outputResult(output);
+    rl.close();
+  });
 }
 
-if (!program.output) {
-  output; // = 'Aopz pz zljyla. Tlzzhnl hivba "_" zftivs!';
-}
 
-
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question(`What's your name?`, name => {
-  console.log(`Hi ${name}!`);
-  
-  input = name;
-  
-  if (actions[program.action]) {
-    const r = actions[program.action](input, shift);
-    console.log(program.action, r);
-  } else {
-    console.log(`The action should be one of ${Object.keys(actions).join(' or ')}, but is: ${program.action}`);
-  }
-  
-  
-  rl.close();
-});
-
-
-const run = () => {
-  if (actions[program.action]) {
-    const r = actions[program.action](input, shift);
-    console.log(program.action, r);
-  } else {
-    console.log(`The action should be one of ${Object.keys(actions).join(' or ')}, but is: ${program.action}`);
-  }
-};
-
-
-//run();
